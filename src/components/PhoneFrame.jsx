@@ -159,15 +159,15 @@ export default function PhoneFrame() {
       <div className="fixed top-10 left-1/3 w-[300px] h-[300px] bg-[#FFB15C]/05 blur-[120px] pointer-events-none rounded-full" />
       <div className="fixed bottom-10 right-1/3 w-[350px] h-[350px] bg-[#E87524]/08 blur-[130px] pointer-events-none rounded-full" />
 
-      {/* Main iPhone Device Mockup Shell */}
+      {/* Main iPhone Device Mockup Shell (desktop/tablet only) - on real mobile viewports the outer bezel is dropped so the fake frame doesn't render inside the real device frame */}
       <motion.div
         initial={{ opacity: 0, scale: 0.96 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ type: 'spring', damping: 25, stiffness: 220 }}
-        className="relative w-full max-w-[390px] h-[844px] max-h-[92vh] sm:max-h-[844px] rounded-[50px] p-[3px] bg-gradient-to-b from-[#4A3E34] via-[#241D17] to-[#120E0B] shadow-[0_25px_80px_-15px_rgba(0,0,0,0.95),0_0_50px_rgba(255,154,61,0.18)] border border-white/[0.12] flex flex-col select-none overflow-hidden"
+        className="relative w-full max-w-[390px] h-[844px] max-h-[92vh] sm:max-h-[844px] rounded-[50px] sm:p-[3px] bg-transparent sm:bg-gradient-to-b sm:from-[#4A3E34] sm:via-[#241D17] sm:to-[#120E0B] shadow-none sm:shadow-[0_25px_80px_-15px_rgba(0,0,0,0.95),0_0_50px_rgba(255,154,61,0.18)] border-0 sm:border sm:border-white/[0.12] flex flex-col select-none overflow-hidden"
       >
         {/* Inner Titanium Bezel */}
-        <div className="relative w-full h-full rounded-[47px] bg-[#070503] overflow-hidden flex flex-col border border-black/80 shadow-inner">
+        <div className="relative w-full h-full rounded-none sm:rounded-[47px] bg-[#070503] overflow-hidden flex flex-col border-0 sm:border sm:border-black/80 sm:shadow-inner">
           
           {/* Rich Ambient Luxury Wallpaper Background */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
