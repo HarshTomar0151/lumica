@@ -39,7 +39,7 @@ export default function Messages() {
       {/* Search Bar */}
       <div className="px-4 mb-4">
         <div className="relative flex items-center">
-          <Search size={16} className="absolute left-3.5 text-[#8E867E]" />
+          <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 z-10 text-[#8E867E] pointer-events-none" />
           <input
             type="text"
             value={searchQuery}

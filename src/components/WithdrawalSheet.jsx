@@ -90,7 +90,7 @@ export default function WithdrawalSheet() {
                   </button>
                 </div>
                 <div className="relative flex items-center">
-                  <span className="absolute left-3.5 text-[#FF9A3D] font-bold text-base">$</span>
+                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#FF9A3D] font-bold text-base pointer-events-none">$</span>
                   <input
                     type="number"
                     value={amount}

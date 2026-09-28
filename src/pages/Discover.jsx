@@ -54,7 +54,7 @@ export default function Discover() {
       {/* Frosted Glass Search Bar */}
       <div className="px-4 mb-3.5">
         <div className="relative flex items-center">
-          <Search size={16} className="absolute left-3.5 text-[#8E867E]" />
+          <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 z-10 text-[#8E867E] pointer-events-none" />
           <input
             type="text"
             value={searchQuery}
@@ -65,7 +65,7 @@ export default function Discover() {
           {searchQuery && (
             <button
               onClick={() => setSearchQuery('')}
-              className="absolute right-3.5 text-[10px] text-[#8E867E] hover:text-white"
+              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[10px] text-[#8E867E] hover:text-white"
             >
               Clear
             </button>

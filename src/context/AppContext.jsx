@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import confetti from 'canvas-confetti';
+import toast from 'react-hot-toast';
 import { CREATORS, CURRENT_USER } from '../data/creators';
 import { INITIAL_POSTS } from '../data/posts';
 import { INITIAL_CONVERSATIONS } from '../data/messages';
@@ -59,13 +60,12 @@ export function AppProvider({ children }) {
   const [isContentLibraryOpen, setIsContentLibraryOpen] = useState(false);
 
   // Toast
-  const [toast, setToast] = useState(null);
-
   const showToast = (message, icon = '✨') => {
-    setToast({ message, icon });
-    setTimeout(() => {
-      setToast(null);
-    }, 3200);
+    toast(message, {
+      icon,
+      duration: 3200,
+      position: 'top-center'
+    });
   };
 
   const triggerConfetti = () => {
@@ -396,7 +396,6 @@ export function AppProvider({ children }) {
       handleCreatePost,
       handleCompleteChallenge,
       handleRequestPayout,
-      toast,
       showToast,
       triggerConfetti
     }}>

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Send, Image, DollarSign, Mic, MoreVertical, CheckCheck, Sparkles } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
@@ -7,6 +7,10 @@ export default function ChatView({ conversation }) {
   const { closeChat, openTipSheet, creators, showToast } = useApp();
   const [messages, setMessages] = useState(conversation.messages || []);
   const [inputText, setInputText] = useState('');
+  const [isRecording, setIsRecording] = useState(false);
+  const [recordSeconds, setRecordSeconds] = useState(0);
+  const recordTimerRef = useRef(null);
+  const recordStartedRef = useRef(false);
 
   const creator = creators.find(c => c.id === conversation.creatorId) || {
     id: conversation.creatorId,
@@ -57,6 +61,38 @@ export default function ChatView({ conversation }) {
     setMessages(prev => [...prev, photoMsg]);
     showToast('Photo attachment sent', '📸');
   };
+
+  const startRecording = (e) => {
+    e.preventDefault();
+    if (recordStartedRef.current) return;
+    recordStartedRef.current = true;
+    setRecordSeconds(0);
+    setIsRecording(true);
+    recordTimerRef.current = setInterval(() => {
+      setRecordSeconds(prev => prev + 1);
+    }, 1000);
+  };
+
+  const stopRecording = (shouldSend) => {
+    if (!recordStartedRef.current) return;
+    recordStartedRef.current = false;
+    clearInterval(recordTimerRef.current);
+
+    setRecordSeconds((finalSeconds) => {
+      if (shouldSend && finalSeconds > 0) {
+        const mins = Math.floor(finalSeconds / 60);
+        const secs = finalSeconds % 60;
+        const durationLabel = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        showToast(`Voice note recorded (${durationLabel})`, '🎙️');
+      }
+      return 0;
+    });
+    setIsRecording(false);
+  };
+
+  useEffect(() => () => clearInterval(recordTimerRef.current), []);
+
+  const formattedRecordTime = `0:${recordSeconds < 10 ? '0' : ''}${recordSeconds}`;
 
   return (
     <div className="w-full h-full flex flex-col bg-[#050403] text-white select-none">
@@ -175,24 +211,63 @@ export default function ChatView({ conversation }) {
       {/* Fixed Composer Bottom */}
       <div className="absolute bottom-0 left-0 right-0 p-3 bg-[#0D0906]/95 backdrop-blur-2xl border-t border-white/[0.08] z-30">
         <form onSubmit={handleSend} className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={handleSendPhotoMock}
-            className="w-10 h-10 rounded-full bg-white/[0.05] border border-white/10 flex items-center justify-center text-[#A8A19A] hover:text-[#FF9A3D] transition-colors flex-shrink-0"
-            title="Attach Photo"
-          >
-            <Image size={17} />
-          </button>
+          <AnimatePresence mode="wait">
+            {isRecording ? (
+              <motion.div
+                key="recording"
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.96 }}
+                className="flex-1 h-10 px-4 rounded-full bg-[#FF3B30]/10 border border-[#FF3B30]/30 flex items-center gap-2.5"
+              >
+                <span className="relative flex h-2.5 w-2.5 flex-shrink-0">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF3B30] opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#FF3B30]" />
+                </span>
 
-          <input
-            type="text"
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-            placeholder="Message patron channel..."
-            className="flex-1 h-10 px-4 rounded-full bg-white/[0.04] border border-white/15 text-xs text-white placeholder-[#77716B] focus:outline-none focus:border-[#FF9A3D]/60"
-          />
+                <div className="flex items-center gap-[3px] flex-1 h-full">
+                  {Array.from({ length: 22 }).map((_, i) => (
+                    <motion.span
+                      key={i}
+                      className="w-[2.5px] rounded-full bg-[#FF9A3D]"
+                      animate={{ height: ['30%', '90%', '40%', '70%', '30%'] }}
+                      transition={{
+                        duration: 0.9 + (i % 5) * 0.1,
+                        repeat: Infinity,
+                        ease: 'easeInOut',
+                        delay: i * 0.04
+                      }}
+                    />
+                  ))}
+                </div>
 
-          {inputText.trim() ? (
+                <span className="text-[11px] font-mono text-[#FFB15C] flex-shrink-0 tabular-nums">
+                  {formattedRecordTime}
+                </span>
+              </motion.div>
+            ) : (
+              <React.Fragment key="idle">
+                <button
+                  type="button"
+                  onClick={handleSendPhotoMock}
+                  className="w-10 h-10 rounded-full bg-white/[0.05] border border-white/10 flex items-center justify-center text-[#A8A19A] hover:text-[#FF9A3D] transition-colors flex-shrink-0"
+                  title="Attach Photo"
+                >
+                  <Image size={17} />
+                </button>
+
+                <input
+                  type="text"
+                  value={inputText}
+                  onChange={(e) => setInputText(e.target.value)}
+                  placeholder="Message patron channel..."
+                  className="flex-1 h-10 px-4 rounded-full bg-white/[0.04] border border-white/15 text-xs text-white placeholder-[#77716B] focus:outline-none focus:border-[#FF9A3D]/60"
+                />
+              </React.Fragment>
+            )}
+          </AnimatePresence>
+
+          {inputText.trim() && !isRecording ? (
             <button
               type="submit"
               className="w-10 h-10 rounded-full amber-gradient-btn text-black flex items-center justify-center shadow-lg shadow-[#FF9A3D]/30 flex-shrink-0"
@@ -200,13 +275,21 @@ export default function ChatView({ conversation }) {
               <Send size={15} />
             </button>
           ) : (
-            <button
+            <motion.button
               type="button"
-              onClick={() => showToast('Voice note recorded (0:04)', '🎙️')}
-              className="w-10 h-10 rounded-full bg-white/[0.05] border border-white/10 flex items-center justify-center text-[#A8A19A] hover:text-white flex-shrink-0"
+              animate={isRecording ? { scale: 1.12 } : { scale: 1 }}
+              onPointerDown={startRecording}
+              onPointerUp={() => stopRecording(true)}
+              onPointerLeave={() => isRecording && stopRecording(true)}
+              onContextMenu={(e) => e.preventDefault()}
+              className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-colors touch-none select-none ${
+                isRecording
+                  ? 'bg-[#FF3B30] border border-[#FF3B30] text-white shadow-lg shadow-[#FF3B30]/40'
+                  : 'bg-white/[0.05] border border-white/10 text-[#A8A19A] hover:text-white'
+              }`}
             >
               <Mic size={17} />
-            </button>
+            </motion.button>
           )}
         </form>
       </div>

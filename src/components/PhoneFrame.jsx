@@ -76,7 +76,8 @@ export default function PhoneFrame() {
     authScreen,
     setAuthScreen,
     setActiveStory,
-    showToast
+    showToast,
+    selectedChat
   } = useApp();
 
   const [currentTime, setCurrentTime] = useState('9:41');
@@ -214,7 +215,7 @@ export default function PhoneFrame() {
           </div>
 
           {/* Main App Screen Scrollable Area with Full 100px Bottom Clearance & Fluid Transitions */}
-          <main className="flex-1 w-full overflow-y-auto no-scrollbar pt-14 pb-[100px] relative z-10">
+          <main className={`flex-1 w-full overflow-y-auto no-scrollbar pt-14 relative z-10 ${selectedChat ? '' : 'pb-[100px]'}`}>
             <motion.div
               key={selectedCreator ? `creator_${selectedCreator.id}` : (isLoggedIn ? activeTab : `auth_${authScreen}`)}
               initial={{ opacity: 0, y: 8 }}
@@ -226,8 +227,8 @@ export default function PhoneFrame() {
             </motion.div>
           </main>
 
-          {/* Floating Glass Bottom Navigation */}
-          {isLoggedIn && userRole !== 'admin' && <BottomNav />}
+          {/* Floating Glass Bottom Navigation (hidden while a chat thread is open) */}
+          {isLoggedIn && userRole !== 'admin' && !selectedChat && <BottomNav />}
 
           {/* iPhone Home Indicator Bar */}
           <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-32 h-1 bg-white/40 rounded-full z-50 pointer-events-none" />

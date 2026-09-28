@@ -1,24 +1,35 @@
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useApp } from '../context/AppContext';
+import { Toaster } from 'react-hot-toast';
 
 export default function Toast() {
-  const { toast } = useApp();
-
   return (
-    <AnimatePresence>
-      {toast && (
-        <motion.div
-          initial={{ opacity: 0, y: 20, scale: 0.9 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: -20, scale: 0.9 }}
-          transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-          className="fixed top-14 left-1/2 -translate-x-1/2 z-[100] max-w-[90%] px-4 py-2.5 rounded-2xl bg-[#140E0A]/90 backdrop-blur-2xl border border-[#FF9A3D]/40 text-white shadow-2xl shadow-black/80 flex items-center gap-2.5 pointer-events-none"
-        >
-          <span className="text-base">{toast.icon || '✨'}</span>
-          <span className="text-xs font-semibold text-[#F5F1EC] tracking-tight">{toast.message}</span>
-        </motion.div>
-      )}
-    </AnimatePresence>
+    <Toaster
+      position="top-center"
+      reverseOrder={false}
+      gutter={8}
+      containerStyle={{
+        position: 'absolute',
+        top: 52,
+        left: 0,
+        right: 0
+      }}
+      toastOptions={{
+        duration: 3200,
+        style: {
+          background: 'rgba(26, 21, 18, 0.95)',
+          color: '#F0ECE6',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          borderRadius: '9999px',
+          padding: '8px 14px',
+          fontSize: '11.5px',
+          fontWeight: 500,
+          letterSpacing: '-0.01em',
+          boxShadow: '0 8px 24px -6px rgba(0, 0, 0, 0.6)',
+          maxWidth: '86%',
+          backdropFilter: 'blur(20px)',
+          pointerEvents: 'none'
+        }
+      }}
+    />
   );
 }

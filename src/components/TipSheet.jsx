@@ -111,7 +111,7 @@ export default function TipSheet() {
               {/* Custom Amount Input */}
               <div className="mb-3">
                 <div className="relative flex items-center">
-                  <span className="absolute left-3.5 z-10 text-[#FFB15C] font-bold text-sm">$</span>
+                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2 z-10 text-[#FFB15C] font-bold text-sm pointer-events-none">$</span>
                   <input
                     type="number"
                     value={customAmount}

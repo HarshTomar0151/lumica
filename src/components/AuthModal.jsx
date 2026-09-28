@@ -110,7 +110,7 @@ export default function AuthModal() {
                 {!isResetSent ? (
                   <form onSubmit={handleSubmit} className="space-y-3">
                     <div className="relative flex items-center">
-                      <Mail size={16} className="absolute left-3.5 text-[#8E867E]" />
+                      <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8E867E] pointer-events-none" />
                       <input
                         type="email"
                         required
@@ -207,7 +207,7 @@ export default function AuthModal() {
                 <form onSubmit={handleSubmit} className="space-y-3">
                   {authMode === 'register' && (
                     <div className="relative flex items-center">
-                      <User size={16} className="absolute left-3.5 text-[#8E867E]" />
+                      <User size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8E867E] pointer-events-none" />
                       <input
                         type="text"
                         required
@@ -220,7 +220,7 @@ export default function AuthModal() {
                   )}
 
                   <div className="relative flex items-center">
-                    <Mail size={16} className="absolute left-3.5 text-[#8E867E]" />
+                    <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8E867E] pointer-events-none" />
                     <input
                       type="email"
                       required
@@ -232,7 +232,7 @@ export default function AuthModal() {
                   </div>
 
                   <div className="relative flex items-center">
-                    <Lock size={16} className="absolute left-3.5 text-[#8E867E]" />
+                    <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8E867E] pointer-events-none" />
                     <input
                       type="password"
                       required

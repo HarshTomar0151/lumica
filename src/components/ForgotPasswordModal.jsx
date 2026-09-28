@@ -192,7 +192,7 @@ export default function ForgotPasswordModal() {
                     Account Email
                   </label>
                   <div className="relative flex items-center">
-                    <Mail size={18} className="absolute left-3.5 z-10 pointer-events-none text-[#FFB15C]" />
+                    <Mail size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 z-10 pointer-events-none text-[#FFB15C]" />
                     <input
                       type="email"
                       value={email}
@@ -331,7 +331,7 @@ export default function ForgotPasswordModal() {
                     New Password
                   </label>
                   <div className="relative flex items-center">
-                    <Lock size={18} className="absolute left-3.5 z-10 pointer-events-none text-[#FFB15C]" />
+                    <Lock size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 z-10 pointer-events-none text-[#FFB15C]" />
                     <input
                       type={showPassword ? 'text' : 'password'}
                       required
@@ -343,7 +343,7 @@ export default function ForgotPasswordModal() {
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3.5 z-10 text-[#8E867E] hover:text-white"
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 z-10 text-[#8E867E] hover:text-white"
                     >
                       {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
                     </button>
@@ -355,7 +355,7 @@ export default function ForgotPasswordModal() {
                     Confirm Password
                   </label>
                   <div className="relative flex items-center">
-                    <Lock size={18} className="absolute left-3.5 z-10 pointer-events-none text-[#FFB15C]" />
+                    <Lock size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 z-10 pointer-events-none text-[#FFB15C]" />
                     <input
                       type={showPassword ? 'text' : 'password'}
                       required

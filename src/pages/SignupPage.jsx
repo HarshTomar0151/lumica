@@ -102,7 +102,7 @@ export default function SignupPage() {
               Full Legal / Display Name
             </label>
             <div className="relative flex items-center">
-              <User size={18} className="absolute left-3.5 z-10 pointer-events-none text-[#FFB15C]" />
+              <User size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 z-10 pointer-events-none text-[#FFB15C]" />
               <input
                 type="text"
                 value={name}
@@ -119,7 +119,7 @@ export default function SignupPage() {
               Email Address
             </label>
             <div className="relative flex items-center">
-              <Mail size={18} className="absolute left-3.5 z-10 pointer-events-none text-[#FFB15C]" />
+              <Mail size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 z-10 pointer-events-none text-[#FFB15C]" />
               <input
                 type="email"
                 value={email}
@@ -136,7 +136,7 @@ export default function SignupPage() {
               Passphrase (min 8 characters)
             </label>
             <div className="relative flex items-center">
-              <Lock size={18} className="absolute left-3.5 z-10 pointer-events-none text-[#FFB15C]" />
+              <Lock size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 z-10 pointer-events-none text-[#FFB15C]" />
               <input
                 type={showPassword ? 'text' : 'password'}
                 value={password}
@@ -147,7 +147,7 @@ export default function SignupPage() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3.5 z-10 text-[#8E867E] hover:text-white p-1"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 z-10 text-[#8E867E] hover:text-white p-1"
                 aria-label="Toggle password visibility"
               >
                 {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
